@@ -5,17 +5,19 @@ import day_night_switch from "./showCongration";
 
 const Header = () => {
   return (
-  
     <Menu secondary style={{ marginTop: 15, height: 64 }}>
-        <Image src='image2vector.svg' size = "tiny" />
-        <label style={{ fontFamily: "Milonga", fontSize: 64, marginTop: 18 }}>
-          EcoTeleport
-        </label>
-
+        <a href = "/">
+      <Image src="image2vector.svg" size= "tiny" />
+      </a>
+      <label style={{ fontFamily: "Milonga", fontSize: 64, marginTop: 40 }}>
+        EcoTeleport
+      </label>
+      
 
       <Menu.Menu position="right">
-        <Button color='yellow'> User</Button>
-        <Button>Day_night_Button</Button>
+        <a href="/login">
+          <Button color="yellow"> User</Button>
+        </a>
       </Menu.Menu>
     </Menu>
   );

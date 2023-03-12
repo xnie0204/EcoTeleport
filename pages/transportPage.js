@@ -31,10 +31,18 @@ const Transportation = () => {
   const clickGralution = async (value) => {
     setFinalMethod(value);
     setShowCongra(true);
-    sendPros(value,true)
-
-   
+    sendCongralation(value,true)
   } 
+  function sendCongralation(finalMethod) {
+    Router.push({
+      pathname: "/congralution",
+      query: {
+        destination,
+        startTime,
+        finalMethod,
+      },
+    });
+  }
 
   function sendPros(finalMethod , isShowCongra) {
     Router.push({

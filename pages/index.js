@@ -4,6 +4,7 @@ import { Button, Input, i } from "semantic-ui-react";
 import Link from "next/link";
 import Router from "next/router"
 import showCongration from "@/components/showCongration";
+import LineChart from "../components/Linchar";
 
 const axios = require('axios').default
 
@@ -41,7 +42,7 @@ const index = () => {
     }}>
     <Layout>
       <div style={{ fontFamily: "Itim", fontSize: 20 }}>
-        <div class="ui labeled input" style={{ marginTop: 10, height: 50 }}>
+        <div class="ui labeled input" style={{ marginTop: 50, height: 50 }}>
           <div class="ui label">To:</div>
           <Input
             style={{ width: 400, marginRight: 100 }}
@@ -97,6 +98,7 @@ const index = () => {
            
           </div>
         </div>
+        {/* <LineChart /> */}
         <br/>
         <br/>
       </div>
