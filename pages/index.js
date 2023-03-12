@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import { Button, Input, i } from "semantic-ui-react";
 import Link from "next/link";
 import Router from "next/router"
+import showCongration from "@/components/showCongration";
 
 const axios = require('axios').default
 
@@ -31,6 +32,13 @@ const index = () => {
     
   
   return (
+    <section style={{
+      backgroundImage:
+      `url('/image.png')`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+    }}>
     <Layout>
       <div style={{ fontFamily: "Itim", fontSize: 20 }}>
         <div class="ui labeled input" style={{ marginTop: 10, height: 50 }}>
@@ -53,11 +61,11 @@ const index = () => {
           />
         </div>
 
-        <div style={{ marginTop: 20 }}>
+        <div style={{ marginTop: 20 ,marginBottom: 500 }}>
           <p style={{ fontSize: 30 }}>Transportation mode:</p>
           <div class="ui cards" style={{ size: 20 }}>
            
-              <div class="card" style={{ padding: 100, marginRight: 100 }}>
+              <div class="card" style={{ padding: 10, marginRight: 100, backgroundColor: 'rgba(52, 52, 52, 0.0)'}}>
               <a onClick={async () =>  await clickFunction("car")}>
                 <div class="center aligned ">
                   <i class="huge car icon"></i>
@@ -68,7 +76,7 @@ const index = () => {
             
            
             
-            <div class="card" style={{ padding: 100, marginRight: 100 }}>
+            <div class="card" style={{ padding: 10, marginRight: 100,backgroundColor: 'rgba(52, 52, 52, 0.0)' }}>
             <a onClick={async () =>  await clickFunction("bus")}>
               <div class="center aligned ">
                 <i class="huge bus icon"></i>
@@ -78,8 +86,7 @@ const index = () => {
             </div>
             
            
-           
-            <div class="card" style={{ padding: 100 }}>
+            <div class="card" style={{ padding: 10,backgroundColor: 'rgba(52, 52, 52, 0.0)' }}>
             <a onClick={async () =>  await clickFunction("plane")}>
               <div class="center aligned ">
                 <i class="huge plane icon"></i>
@@ -87,11 +94,14 @@ const index = () => {
               </div>
               </a>
             </div>
-            
+           
           </div>
         </div>
+        <br/>
+        <br/>
       </div>
     </Layout>
+    </section>
   );
   }
 

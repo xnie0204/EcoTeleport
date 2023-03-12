@@ -12,11 +12,57 @@ const map = () => {
   const router = useRouter();
   const mapElement = useRef()
   const [map,setMap] = useState({});
-  const [longitude,setLongtitude] = useState(-0.112869)
-  const [latitude,setLatitude] = useState( 51.504)
+  const [longitude,setLongtitude] = useState(-123.249999)
+  const [latitude,setLatitude] = useState(49.2666656)
+  
+
+  const {
+    query: { destination, startTime, finalMethod },
+  } = router;
+
+  const props = {
+    destination,
+    startTime,
+   finalMethod,
+  };
+
+
+  const convertToPoints = (lngLat) => {
+    return {
+      point: {
+        latitude:lngLat.lat,
+        longitude: lngLat.lng
+      }
+    }
+  }
+
+
+  const drawRoute = (geoJson, map) => {
+    if (map.getLayer('route')) {
+      map.removeLayer('route')
+      map.removeSource('route')
+    }
+    map.addLayer({
+      id: 'route',
+      type: 'line',
+      source: {
+        type: 'geojson',
+        data: geoJson
+      },
+      paint: {
+        'line-color': '#4a90e2',
+        'line-width': 6
+      }
+    })
+  }
 
 
   useEffect(()=> {
+    const origin = {
+      lng:longitude,
+      lat:latitude,
+
+    }
     let map = tt.map({
       key: "kXRDpfhjbToMJKFJj3SJRbhCszqd7Ar9",
       container: mapElement.current,
@@ -29,20 +75,7 @@ const map = () => {
     })
 
     setMap(map)
-  },[])
-
-
-  const {
-    query: { destination, startTime, finalMethod },
-  } = router;
-
-  const props = {
-    destination,
-    startTime,
-   finalMethod,
-  };
-
-   
+  
   const element = document.createElement('div')
   element.className = 'marker'
   element.style= {
@@ -68,18 +101,74 @@ const map = () => {
    }
    addMarker()
 
-   const callParameters = {
-    key = "kXRDpfhjbToMJKFJj3SJRbhCszqd7Ar9",
-    destination:
-    origin:
-   }
+   let destinations = []
 
-   return new Promise((resolve,reject)=> {
-    ttapi.services.matrixRouting(callParameters)
 
-   })
+  const sortDestinations = (locations) => {
+    const pointsForDestination = locations.map((destination)=> {
+      return convertToPoints(destination)
+    })
+
+    const callParameters = {
+      key: "kXRDpfhjbToMJKFJj3SJRbhCszqd7Ar9",
+      destinations: pointsForDestination,
+      origins: [convertToPoints(origin)]
+     }
+
+     return new Promise((resolve, reject) => {
+      console.log(callParameters)
+      ttapi.services
+        .matrixRouting(callParameters)
+        .then((matrixAPIResults) => {
+          const results = matrixAPIResults.matrix[0]
+          const resultsArray = results.map((result, index) => {
+            return {
+              location: locations[index],
+              drivingtime: result.response.routeSummary.travelTimeInSeconds,
+            }
+          })
+          resultsArray.sort((a, b) => {
+            return a.drivingtime - b.drivingtime
+          })
+          const sortedLocations = resultsArray.map((result) => {
+            return result.location
+          })
+          resolve(sortedLocations)
+        })
+      })
+    }
+
+    const recalculateRoutes = () => {
+      sortDestinations(destinations).then((sorted) => {
+        sorted.unshift(origin)
+
+        ttapi.services
+          .calculateRoute({
+            key: "kXRDpfhjbToMJKFJj3SJRbhCszqd7Ar9",
+            locations: sorted,
+          })
+          .then((routeData) => {
+            const geoJson = routeData.toGeoJson()
+            drawRoute(geoJson, map)
+        })
+      })
+    }
+
+  map.on('click',(e)=> {
+    destinations.push(e.lngLat)
+    recalculateRoutes()
+  })
+      return () => map.remove()
+  },[longitude,latitude])
 
   return (
+    <section   style={{
+      backgroundImage:
+      `url('/background.png')`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+    }}>
     <Layout>
       <hr />
       <div style={{ fontSize: 20, fontFamily: "Itim", marginTop: 20 }}>
@@ -94,7 +183,7 @@ const map = () => {
             <p>
               Transportation mode selected: <i class={`${props.finalMethod} icon`}></i>
             </p>
-            <p>Distance:</p>
+            <p>Distance: 10.1km</p>
 
           </div>
         </div>
@@ -103,6 +192,7 @@ const map = () => {
 
       </div>
     </Layout>
+    </section>
   );
 };
 

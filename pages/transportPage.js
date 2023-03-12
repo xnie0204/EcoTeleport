@@ -20,93 +20,116 @@ const Transportation = () => {
   };
   const [startTime, setStartTime] = useState("");
   const [finalMethod, setFinalMethod] = useState(props.method);
-  const [direction,setDirection ] = useState({});
+  const [direction, setDirection] = useState({});
+  const [showCongra,setShowCongra] = useState(false);
 
   const clickFunction = async (value) => {
     setFinalMethod(value);
-    sendPros(value);
+    sendPros(value,false);
   };
 
-  function sendPros(finalMethod) {
+  const clickGralution = async (value) => {
+    setFinalMethod(value);
+    setShowCongra(true);
+    sendPros(value,true)
+
+   
+  } 
+
+  function sendPros(finalMethod , isShowCongra) {
     Router.push({
       pathname: "/map",
       query: {
         destination,
         startTime,
         finalMethod,
+        isShowCongra
       },
     });
   }
 
- 
 
   useEffect(() => {
     const axiosGetDirection = async (url) => {
       const result = await helpers.axiosGet(url);
-      await setDirection(result)
+      await setDirection(result);
     };
-    console.log(direction)
+    console.log(direction);
     axiosGetDirection(
       "https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Disneyland&key=AIzaSyDdU38J3ZgO2CW7AgMubfjHAJzXRcFU_WY"
     );
-  },[]);
-
-  
+  }, []);
 
 
   return (
-    <Layout>
-      <div style={{ fontSize: 20, fontFamily: "Itim" }}>
-        <div style={{ fontSize: 30 }}>
-          <div>To: {destination}</div>
-        </div>
-
-        <div class="ui labeled input" style={{ marginTop: 30, height: 50 }}>
-          <div class="ui label">start time:</div>
-          <Input
-            style={{ width: 400 }}
-            type="text"
-            placeholder="start time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-        </div>
-
-        <div class="ui cards" style={{ marginTop: 30, marginLeft: 150 }}>
-          <div class="card " style={{ marginRight: 100, padding: 100 }}>
-            <a onClick={async () => await clickFunction(props.method)}>
-              <div class="center aligned ">
-                <p>Transportation mode selected:</p>
-                <i class={`huge ${props.method} icon`}></i>
-                <div>{method}</div>
-              </div>
-            </a>
+   
+      <section
+        style={{
+          backgroundImage:
+          `url('/background.png')`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+         <Layout>
+        <div style={{ fontSize: 20, fontFamily: "Itim" }}>
+          <div style={{ fontSize: 30 }}>
+            <div>To: {destination}</div>
           </div>
 
-          <div class="card " style={{ marginRight: 100, padding: 100 }}>
-            <a onClick={async () => await clickFunction(props.method)}>
-              <div class="center aligned">
-                <p>Transportation mode Suggested:</p>
-                <i class={`huge ${method} icon`}></i>
-                <div>{method}</div>
-              </div>
-            </a>
+          <div class="ui labeled input" style={{ marginTop: 30, height: 50 }}>
+            <div class="ui label">start time:</div>
+            <Input
+              style={{ width: 400 }}
+              type="text"
+              placeholder="start time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+            />
+          </div>
+
+          <div class="ui cards" style={{ marginTop: 30, marginLeft: 150 }}>
+            <div class="card " style={{ marginRight: 100, padding: 100 }}>
+              <a onClick={async () => await clickFunction(props.method)}>
+                <div class="center aligned ">
+                  <p>Transportation mode selected:</p>
+                  <i class={`huge ${props.method} icon`}></i>
+                  <div>{method}</div>
+                </div>
+              </a>
+            </div>
+            
+            <div class="card " style={{ marginRight: 100, padding: 100 }}>
+              <a onClick={async () => await clickGralution(props.method)}>
+                <div class="center aligned">
+                  <p>Transportation mode Suggested:</p>
+                  <i class={`huge subway icon`}></i>
+                  <div>subway</div>
+                </div>
+              </a>
+            </div>
+
+            <div> <image src='congralation.png' /></div>
+          </div>
+         
+            
+          
+          <br />
+          <br />
+          <br />
+          <div style={{ textAlign: "center" }}>
+            <Message
+              style={{ textAlign: "center" }}
+              compact
+              header="Carbon emission Saved!"
+              content="When choosing suggested transportation mode!"
+            />
           </div>
         </div>
-
-        <br />
-        <br />
-        <br />
-        <div style={{ textAlign: "center" }}>
-          <Message
-            style={{ textAlign: "center" }}
-            compact
-            header="Carbon emission Saved!"
-            content="When choosing suggested transportation mode!"
-          />
-        </div>
-      </div>
-    </Layout>
+        </Layout>
+      </section>
+   
   );
 };
 
