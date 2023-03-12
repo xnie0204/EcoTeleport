@@ -10,11 +10,11 @@ const LineChart = () => {
     return (
         <Bar
         data={{
-          labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6'],
+          labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
           datasets: [
             {
               label: `Usage of Carbon consume`,
-              data: [1,2,3,4,5,6],
+              data: [2478,5267,734,784,433],
 
               borderColor: [
                 "rgba(255, 99, 132, 1)",
@@ -31,33 +31,9 @@ const LineChart = () => {
             },
           ],
         }}
-        height={400}
-        width={600}
+        height={100}
+        width={200}
         options={{
-          maintainAspectRatio: false,
-          responsive: true,
-          scales: {
-            x: 
-              {
-                ticks: {
-                  beginAtZero: true,
-                  autoSkip:true,
-                },
-              },
-            
-            y: 
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
-              },
-            
-          },
-          legend: {
-            labels: {
-              fontSize: 25,
-            },
-          },
         }}
       />
     )

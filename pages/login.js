@@ -9,9 +9,30 @@ axios.defaults.withCredentials = true
 function LoginIndex () {
  
         return (
+            <section style={{
+                backgroundImage:
+                `url('/background.png')`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}>
           <Layout>
+            
+            <div style = {{marginTop: 50, marginBottom: 1000}}>
         < LoginForm />
+        </div>
           </Layout>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          </section>
+
         );
     }
 

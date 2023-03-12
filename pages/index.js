@@ -98,7 +98,6 @@ const index = () => {
            
           </div>
         </div>
-        {/* <LineChart /> */}
         <br/>
         <br/>
       </div>

@@ -18,11 +18,11 @@ const congralution = () => {
       const props = {
         destination,
         startTime,
-       finalMethod,
+        finalMethod,
       };
 
       const rdestination = props.destination;
-      const rstartTime = props.destination;
+      const rstartTime = props.startTime;
       const rfinalMethod = props.finalMethod;
 
       function sendPros(method) {

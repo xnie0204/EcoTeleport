@@ -18,6 +18,9 @@ const Header = () => {
         <a href="/login">
           <Button color="yellow"> User</Button>
         </a>
+        <a href="/userPage">
+          <Button color="yellow"> Carbon Consume</Button>
+        </a>
       </Menu.Menu>
     </Menu>
   );
