@@ -22,16 +22,19 @@ const congralution = () => {
       };
 
       const rdestination = props.destination;
-      const rstartTime = props.rdestination;
+      const rstartTime = props.destination;
       const rfinalMethod = props.finalMethod;
 
       function sendPros(method) {
+        const destination = rdestination;
+        const startTime = rstartTime;
+        const finalMethod = rfinalMethod 
         Router.push({
           pathname: "/map",
           query: {
-            rdestination,
-            rstartTime,
-            rfinalMethod
+            destination,
+            startTime,
+            finalMethod
           },
         });
       }

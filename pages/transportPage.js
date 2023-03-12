@@ -109,7 +109,7 @@ const Transportation = () => {
             </div>
             
             <div class="card " style={{ marginRight: 100, padding: 100 }}>
-              <a onClick={async () => await clickGralution(props.method)}>
+              <a onClick={async () => await clickGralution("subway")}>
                 <div class="center aligned">
                   <p>Transportation mode Suggested:</p>
                   <i class={`huge subway icon`}></i>
