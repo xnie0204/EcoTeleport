@@ -104,6 +104,7 @@ const Transportation = () => {
                   <p>Transportation mode selected:</p>
                   <i class={`huge ${props.method} icon`}></i>
                   <div>{method}</div>
+                  <p>{method === "subway"? "500 gram" : method === "bus"? "530 gram": "800 gram"}</p>
                 </div>
               </a>
             </div>
@@ -114,6 +115,8 @@ const Transportation = () => {
                   <p>Transportation mode Suggested:</p>
                   <i class={`huge subway icon`}></i>
                   <div>subway</div>
+
+                  <p>500 gram</p>
                 </div>
               </a>
             </div>

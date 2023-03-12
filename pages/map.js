@@ -170,8 +170,9 @@ const map = () => {
       backgroundRepeat: "no-repeat",
     }}>
     <Layout>
+     
+      <div style={{ fontSize: 20, fontFamily: "Itim", marginTop: 50 }}>
       <hr />
-      <div style={{ fontSize: 20, fontFamily: "Itim", marginTop: 20 }}>
         <div style={{ fontSize: 30 }}>
           <div>To: {destination}</div>
           <br />
