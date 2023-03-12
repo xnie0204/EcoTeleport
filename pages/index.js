@@ -4,6 +4,8 @@ import { Button, Input, i } from "semantic-ui-react";
 import Link from "next/link";
 import Router from "next/router"
 
+const axios = require('axios').default
+
 const index = () => {
   const [destination, setDestination] = useState("");
   const [departure, setDeparture] = useState("");
@@ -24,7 +26,8 @@ const index = () => {
    setMethod(value)
     sendPros(value);
    }
- 
+
+   
     
   
   return (

@@ -1,11 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { Link } from "next/link";
 import { useJsApiLoader, GoogleMap } from "@react-google-maps/api";
+import * as tt from '@tomtom-international/web-sdk-maps'
+import '@tomtom-international/web-sdk-maps/dist/maps.css'
+import * as ttapi from '@tomtom-international/web-sdk-services'
+
 
 const map = () => {
   const router = useRouter();
+  const mapElement = useRef()
+  const [map,setMap] = useState({});
+  const [longitude,setLongtitude] = useState(-0.112869)
+  const [latitude,setLatitude] = useState( 51.504)
+
+
+  useEffect(()=> {
+    let map = tt.map({
+      key: "kXRDpfhjbToMJKFJj3SJRbhCszqd7Ar9",
+      container: mapElement.current,
+      center: [longitude,latitude],
+      stylesVisibility: {
+        trafficIncidents: true,
+        trafficFlow: true,
+      },
+      zoom: 14
+    })
+
+    setMap(map)
+  },[])
+
 
   const {
     query: { destination, startTime, finalMethod },
@@ -17,21 +42,42 @@ const map = () => {
    finalMethod,
   };
 
-
-  // const { isLoaded } = useJsApiLoader({
-  //   googleMapsApiKey: "AIzaSyDdU38J3ZgO2CW7AgMubfjHAJzXRcFU_WY",
-  // });
    
+  const element = document.createElement('div')
+  element.className = 'marker'
+  element.style= {
+    backgroundImage: `url('https://i.imgur.com/oz3r3Wq.png')`,
+    backgroundSize: "cover",
+    width: "22px",
+    height: "22px",
+    backgroundColor :"yellow"
+  }
+   const addMarker = () => {
+    const marker = new tt.Marker({
+      draggable:true,
+      element:element
+    })
+    .setLngLat([longitude,latitude])
+    //.addTo(map.current)
 
+    marker.on('dragend',()=> {
+     const lngLat =  marker.getLngLat();
+     setLongtitude(lngLat.lng);
+     setLatitude(lngLat.lat)
+    })
+   }
+   addMarker()
 
-  // if(!isLoaded) {
-  //   return <p>Not loaded</p>
-  // }
+   const callParameters = {
+    key = "kXRDpfhjbToMJKFJj3SJRbhCszqd7Ar9",
+    destination:
+    origin:
+   }
 
-  const GoogleMapConfig = {
-    key: "AIzaSyDdU38J3ZgO2CW7AgMubfjHAJzXRcFU_WY",
-    libraries: 'places',
-  };
+   return new Promise((resolve,reject)=> {
+    ttapi.services.matrixRouting(callParameters)
+
+   })
 
   return (
     <Layout>
@@ -52,6 +98,9 @@ const map = () => {
 
           </div>
         </div>
+
+        <div ref={mapElement} className = "map" style = {{height: 800}}></div>
+
       </div>
     </Layout>
   );

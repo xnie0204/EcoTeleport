@@ -4,6 +4,8 @@ import { Button, Input, i, Message } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import { Link } from "next/link";
 import Router from "next/router";
+import helpers from "../helper";
+const axios = require("axios");
 
 const Transportation = () => {
   const router = useRouter();
@@ -18,6 +20,7 @@ const Transportation = () => {
   };
   const [startTime, setStartTime] = useState("");
   const [finalMethod, setFinalMethod] = useState(props.method);
+  const [direction,setDirection ] = useState({});
 
   const clickFunction = async (value) => {
     setFinalMethod(value);
@@ -34,6 +37,22 @@ const Transportation = () => {
       },
     });
   }
+
+ 
+
+  useEffect(() => {
+    const axiosGetDirection = async (url) => {
+      const result = await helpers.axiosGet(url);
+      await setDirection(result)
+    };
+    console.log(direction)
+    axiosGetDirection(
+      "https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Disneyland&key=AIzaSyDdU38J3ZgO2CW7AgMubfjHAJzXRcFU_WY"
+    );
+  },[]);
+
+  
+
 
   return (
     <Layout>
